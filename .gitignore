@@ -1,0 +1,15 @@
+# Log files
+*.log
+
+# Package files
+*.jar
+
+# Maven
+target/
+dist/
+
+# JetBrains IDE
+*.iml
+.idea/*
+!.idea/codeStyleSettings.xml
+!.idea/codeStyles/

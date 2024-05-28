@@ -11,9 +11,9 @@ You can find the current release of [Lucille on maven central]([url](https://mvn
 # Getting Started
 
 - Include `lucille-core` and `lucille-bom` as a maven dependency.
-- Set up the run configurations. You can find `run/example.conf`.
+- Set up the run configurations. You can find `example.conf`.
 - Compile the code to create the necessary jar files, `mvn clean install` in the top directory.
-- Run `./run/runIngest.sh` which runs a java process
+- Run `./lucille.sh` which runs a java process
 
 You can create your own stages, connectors, etc. by adding them to the src code and using them in a configuration file.
 

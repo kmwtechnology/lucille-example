@@ -2,7 +2,6 @@ package com.lucille.example.stage;
 
 import com.kmwllc.lucille.core.ConfigUtils;
 import com.kmwllc.lucille.core.Document;
-import com.kmwllc.lucille.core.Runner;
 import com.kmwllc.lucille.core.Stage;
 import com.kmwllc.lucille.core.StageException;
 import com.typesafe.config.Config;

@@ -4,7 +4,7 @@ This project is an example of how a developer can leverage [Lucille]([url](https
 You can create your own stages, connectors, etc. by adding them to the src code and using them in a configuration file.
 
 ## Requirements
-- Java 11
+- Java 11 or higher
 
 ## Maven
 You can find the current release of [Lucille on maven central]([url](https://mvnrepository.com/artifact/com.kmwllc/lucille-core)).

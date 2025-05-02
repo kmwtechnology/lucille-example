@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *  Connector implementation that creates x number documents with randomly generated field values.
+ * Connector implementation that creates x number documents with randomly generated field values.
  * <br>
  * Config Parameters -
  * <br>
@@ -26,10 +26,17 @@ public class RandomDocConnector extends AbstractConnector {
 
 
   public RandomDocConnector(Config config) throws ConnectorException {
-    super(config);
-    if ( config.getInt("numDocs") > 1000000) {
+    // Specifying which properties are required / optional for the Connector's configuration.
+    // This allows Lucille to validate Config files that use this Connector, reporting errors if
+    // - A required property is missing
+    // - An unknown property is used in the Config
+    super(config, Spec.connector()
+        .withRequiredProperties("numDocs", "fieldNames"));
+
+    if (config.getInt("numDocs") > 1000000) {
       throw new ConnectorException("The number of documents (numDocs) cannot be grater than 1000000.");
     }
+
     numDocs = config.getInt("numDocs");
     fieldNames = config.getStringList("fieldNames");
   }

@@ -28,5 +28,12 @@
     <Logger name="com.kmwllc.lucille.core.Heartbeat" level="INFO" additivity="false">
       <AppenderRef ref="heartbeat" />
     </Logger>
+
+    <!-- This is a verbose Logger that will output multiple log statements per Document, allowing you to trace the
+    lifecycle of a Document. Set the level to "INFO" if you want to see this information logged. -->
+    <Logger name="com.kmwllc.lucille.core.DocLogger" level="OFF" additivity="false">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
+    </Logger>
   </Loggers>
 </Configuration>

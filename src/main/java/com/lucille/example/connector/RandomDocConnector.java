@@ -34,7 +34,7 @@ public class RandomDocConnector extends AbstractConnector {
         .withRequiredProperties("numDocs", "fieldNames"));
 
     if (config.getInt("numDocs") > 1000000) {
-      throw new ConnectorException("The number of documents (numDocs) cannot be grater than 1000000.");
+      throw new ConnectorException("The number of documents (numDocs) cannot be greater than 1000000.");
     }
 
     numDocs = config.getInt("numDocs");

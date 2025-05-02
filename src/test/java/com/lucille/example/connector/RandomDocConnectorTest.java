@@ -17,7 +17,7 @@ public class RandomDocConnectorTest {
 
   @Test
   public void testExecute() throws Exception {
-    Config config = ConfigFactory.parseResourcesAnySyntax("RandomDocConnector/config.conf");
+    Config config = ConfigFactory.load("RandomDocConnector/config.conf");
 
     TestMessenger messenger = new TestMessenger();
     Publisher publisher = new PublisherImpl(config, messenger, "run", "pipeline1");

@@ -2,27 +2,16 @@
 <Configuration status="INFO" monitorInterval="30">
   <Appenders>
     <!-- Using Json formatting for console logging only -->
-    <Console name="console" target="SYSTEM_OUT">
+    <Console name="Console" target="SYSTEM_OUT">
       <JsonTemplateLayout compact="true" eventTemplateUri="classpath:JsonLayout.json"/>
     </Console>
-
-    <RollingFile name="file" fileName="./log/com.kmwllc.lucille.log" filePattern="./log/com.kmwllc.lucille-%i.log">
+    <RollingFile name="RollingFile" fileName="./log/com.kmwllc.lucille.log" filePattern="./log/com.kmwllc.lucille-%i.log">
       <PatternLayout pattern="%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n" />
       <Policies>
         <SizeBasedTriggeringPolicy size="10 MB" />
       </Policies>
       <DefaultRolloverStrategy max="20" />
     </RollingFile>
-
-    <!-- Can also have the logs in JSON formatting, allowing easy use of Logstash / other log handling -->
-    <RollingFile name="file-json" fileName="./log/com.kmwllc.lucille-json.log" filePattern="./log/com.kmwllc.lucille-json-%i.log">
-      <JsonTemplateLayout eventTemplateUri="classpath:JsonLayout.json"/>
-      <Policies>
-          <SizeBasedTriggeringPolicy size="10 MB" />
-      </Policies>
-      <DefaultRolloverStrategy max="20" />
-    </RollingFile>
-
     <RollingFile name="heartbeat" fileName="./log/heartbeat.log" filePattern="./log/heartbeat-%i.log" immediateFlush="true">
       <PatternLayout pattern="%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n" />
       <Policies>
@@ -30,24 +19,14 @@
       </Policies>
       <DefaultRolloverStrategy max="4" />
     </RollingFile>
-
   </Appenders>
   <Loggers>
     <Root level="INFO">
-      <AppenderRef ref="console" />
-      <AppenderRef ref="file" />
-      <AppenderRef ref="file-json" />
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
     </Root>
-
     <Logger name="com.kmwllc.lucille.core.Heartbeat" level="INFO" additivity="false">
       <AppenderRef ref="heartbeat" />
-    </Logger>
-
-    <!-- This is a verbose Logger that will output multiple log statements per Document, allowing you to trace the
-    lifecycle of a Document. Set the level to "INFO" if you want to see this information logged. -->
-    <Logger name="com.kmwllc.lucille.core.DocLogger" level="OFF" additivity="false">
-      <AppenderRef ref="console" />
-      <AppenderRef ref="file-json" />
     </Logger>
   </Loggers>
 </Configuration>

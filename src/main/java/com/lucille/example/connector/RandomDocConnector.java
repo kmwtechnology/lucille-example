@@ -4,6 +4,8 @@ import com.kmwllc.lucille.connector.AbstractConnector;
 import com.kmwllc.lucille.core.*;
 import com.typesafe.config.Config;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *  Connector implementation that creates x number documents with randomly generated field values.
@@ -15,32 +17,32 @@ import java.util.*;
  */
 public class RandomDocConnector extends AbstractConnector {
 
+  private static final Logger log = LoggerFactory.getLogger(RandomDocConnector.class);
+
   private int numDocs;
   private List<String> fieldNames;
 
   private Random rand = new Random();
-  private int MAX = Integer.MAX_VALUE;
 
 
-  public RandomDocConnector(Config config) {
+  public RandomDocConnector(Config config) throws ConnectorException {
     super(config);
+    if ( config.getInt("numDocs") > 1000000) {
+      throw new ConnectorException("The number of documents (numDocs) cannot be grater than 1000000.");
+    }
     numDocs = config.getInt("numDocs");
     fieldNames = config.getStringList("fieldNames");
   }
 
   @Override
-  public void preExecute(String runId) {
-    // calculate maximum bound for random number generator
-    this.MAX = this.numDocs * 1000;
-  }
-
-  @Override
   public void execute(Publisher publisher) throws ConnectorException {
+    int randBound = this.numDocs * 1000;
 
+    log.info("Generating {} documents with random values.", this.numDocs);
     for (int i = 0; i < this.numDocs; i++) {
       Document doc = Document.create(Integer.toString(i));
       for (String field : this.fieldNames) {
-        doc.setField(field, this.rand.nextInt(this.MAX));
+        doc.setField(field, this.rand.nextInt(randBound));
       }
       try {
         publisher.publish(doc);
@@ -48,15 +50,5 @@ public class RandomDocConnector extends AbstractConnector {
         throw new ConnectorException("Exception caught during connector execution", e);
       }
     }
-  }
-
-  @Override
-  public void postExecute(String runId) throws ConnectorException {
-    super.postExecute(runId);
-  }
-
-  @Override
-  public void close() throws ConnectorException {
-    super.close();
   }
 }

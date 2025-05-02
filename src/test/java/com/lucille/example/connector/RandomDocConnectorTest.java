@@ -1,6 +1,8 @@
 package com.lucille.example.connector;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.kmwllc.lucille.core.Connector;
 import com.kmwllc.lucille.core.Document;
 import com.kmwllc.lucille.core.Publisher;
@@ -25,14 +27,8 @@ public class RandomDocConnectorTest {
     List<Document> docs = messenger.getDocsSentForProcessing();
     // ensure doc count is correct
     assertEquals(50, docs.size());
-    // ensure all expected fields are there ["randTime", "randNum"]
-    try {
-      docs.forEach(document -> document.validateFieldNames("randTime", "randNum"));
-      assert true;
-    } catch (IllegalArgumentException e) {
-      assert false;
-      throw new IllegalArgumentException(e);
-    }
+    // ensure all expected fields are in the documents: ["randTime", "randNum"]
+    docs.forEach(document -> assertTrue(document.has("randTime") && document.has("randNum")));
   }
 
 }

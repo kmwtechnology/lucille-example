@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class AddUnitsTest {
 
-  private StageFactory factory = StageFactory.of(AddUnitsStage.class);
+  private final StageFactory factory = StageFactory.of(AddUnitsStage.class);
 
   @Test
   public void testAddUnitBefore() throws StageException {

@@ -15,9 +15,8 @@ You can find the current release of [Lucille on maven central]([url](https://mvn
 - The example creates dummy docs, transforms the data a little, and creates docs to be indexed into OpenSearch. 
 The default here does not actually send the docs, but if you want to actually see the indexed data, here are some instructions for setting up OpenSearch locally.
   - [OpenSearch Installation Docs](https://opensearch.org/docs/latest/install-and-configure/install-opensearch/index/)
-  - We would reccommend using docker to install OpenSearch if you are already familiar with docker.
-  - Once installed, make sure the OpenSearch section `example.conf` is set up correctly for your configuration of OpenSearch (localhost port, user/password) AND set indexer.sendEnabled to `true`.
-  - 
+  - We would recommend using docker to install OpenSearch if you are already familiar with docker.
+  - Once installed, make sure the OpenSearch section of `example.conf` is set up correctly for your configuration of OpenSearch (localhost port, user/password), AND set indexer.sendEnabled to `true`.
 
 ## Gradle
 TODO

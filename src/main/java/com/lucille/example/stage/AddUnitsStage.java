@@ -2,6 +2,7 @@ package com.lucille.example.stage;
 
 import com.kmwllc.lucille.core.ConfigUtils;
 import com.kmwllc.lucille.core.Document;
+import com.kmwllc.lucille.core.Spec;
 import com.kmwllc.lucille.core.Stage;
 import com.kmwllc.lucille.core.StageException;
 import com.typesafe.config.Config;
@@ -14,7 +15,7 @@ import java.util.Iterator;
  * <br>
  * dest (String) : The field to place the unit on
  * unit (String) : Unit that you want to add, ex. 'ms' for milliseconds
- * after (boolean) : Should the unit be placed at the end of the value, beginning if false
+ * after (boolean, Optional) : Should the unit be placed at the end of the value, beginning if false
  */
 public class AddUnitsStage extends Stage {
   private final String dest;
@@ -22,8 +23,13 @@ public class AddUnitsStage extends Stage {
   private final boolean after;
 
   public AddUnitsStage(Config config) {
-    super(config, new StageSpec().withRequiredProperties("dest", "unit")
+    // Specifying which properties are required / optional for the Stage's configuration.
+    // This allows Lucille to validate Config files that use this Stage, reporting errors if
+    // - A required property is missing
+    // - An unknown property is used in the Config
+    super(config, Spec.stage().withRequiredProperties("dest", "unit")
         .withOptionalProperties("after"));
+
     this.dest = config.getString("dest");
     this.unit = config.getString("unit");
     this.after = ConfigUtils.getOrDefault(config, "after", true);

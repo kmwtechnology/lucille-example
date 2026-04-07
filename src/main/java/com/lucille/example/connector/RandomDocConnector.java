@@ -1,11 +1,18 @@
 package com.lucille.example.connector;
 
-import com.kmwllc.lucille.connector.AbstractConnector;
-import com.kmwllc.lucille.core.*;
-import com.typesafe.config.Config;
-import java.util.*;
+import java.util.List;
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.kmwllc.lucille.connector.AbstractConnector;
+import com.kmwllc.lucille.core.ConnectorException;
+import com.kmwllc.lucille.core.Document;
+import com.kmwllc.lucille.core.Publisher;
+import com.kmwllc.lucille.core.spec.Spec;
+import com.kmwllc.lucille.core.spec.SpecBuilder;
+import com.typesafe.config.Config;
 
 /**
  * Connector implementation that creates x number documents with randomly generated field values.
@@ -24,14 +31,15 @@ public class RandomDocConnector extends AbstractConnector {
 
   private Random rand = new Random();
 
+  // Specifying which properties are required / optional for the Connector's configuration.
+  // This allows Lucille to validate Config files that use this Connector, reporting errors if
+  // - A required property is missing
+  // - An unknown property is used in the Config
+  public static final Spec SPEC = SpecBuilder.connector()
+    .withRequiredProperties("numDocs", "fieldNames").build();
 
   public RandomDocConnector(Config config) throws ConnectorException {
-    // Specifying which properties are required / optional for the Connector's configuration.
-    // This allows Lucille to validate Config files that use this Connector, reporting errors if
-    // - A required property is missing
-    // - An unknown property is used in the Config
-    super(config, Spec.connector()
-        .withRequiredProperties("numDocs", "fieldNames"));
+    super(config);
 
     if (config.getInt("numDocs") > 1000000) {
       throw new ConnectorException("The number of documents (numDocs) cannot be greater than 1000000.");

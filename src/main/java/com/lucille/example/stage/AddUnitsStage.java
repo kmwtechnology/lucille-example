@@ -1,12 +1,14 @@
 package com.lucille.example.stage;
 
+import java.util.Iterator;
+
 import com.kmwllc.lucille.core.ConfigUtils;
 import com.kmwllc.lucille.core.Document;
-import com.kmwllc.lucille.core.Spec;
 import com.kmwllc.lucille.core.Stage;
 import com.kmwllc.lucille.core.StageException;
+import com.kmwllc.lucille.core.spec.Spec;
+import com.kmwllc.lucille.core.spec.SpecBuilder;
 import com.typesafe.config.Config;
-import java.util.Iterator;
 
 /**
  * Adds units to a given field, either at the beginning or end of the value.
@@ -22,13 +24,16 @@ public class AddUnitsStage extends Stage {
   private final String unit;
   private final boolean after;
 
+  // Specifying which properties are required / optional for the Stage's configuration.
+  // This allows Lucille to validate Config files that use this Stage, reporting errors if
+  // - A required property is missing
+  // - An unknown property is used in the Config
+  public static final Spec SPEC = SpecBuilder.stage()
+    .withRequiredProperties("dest", "unit")
+    .withOptionalProperties("after").build();
+
   public AddUnitsStage(Config config) {
-    // Specifying which properties are required / optional for the Stage's configuration.
-    // This allows Lucille to validate Config files that use this Stage, reporting errors if
-    // - A required property is missing
-    // - An unknown property is used in the Config
-    super(config, Spec.stage().withRequiredProperties("dest", "unit")
-        .withOptionalProperties("after"));
+    super(config);
 
     this.dest = config.getString("dest");
     this.unit = config.getString("unit");
